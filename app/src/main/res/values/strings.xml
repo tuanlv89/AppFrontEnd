@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">FoodOrdering</string>
+    <string name="default_notification_channel_id">com.application.tuanlv.foodordering</string>
+    <string name="default_notification_channel_name">Food Ordering</string>
+    <string name="email_title">title</string>
+    <string name="email_body">message</string>
+    <string name="infoAuthor">
+        Lê Tuấn\n
+        github.com/tuanlv98
+    </string>
 </resources>
