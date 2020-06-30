@@ -17,7 +17,7 @@
             android:layout_height="150dp">
         </ss.com.bannerslider.Slider>
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_comic"
+            android:id="@+id/recycler_restaurant"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </LinearLayout>

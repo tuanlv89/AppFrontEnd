@@ -17,6 +17,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
     TextInputLayout edtEmail, edtPassword;
     TextView btnSignIn, btnFacebook;
     ImageView close;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +28,11 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
         btnSignIn.setOnClickListener(this);
         btnFacebook.setOnClickListener(this);
         close.setOnClickListener(this);
+    }
+
+    @Override public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_enter_in, R.anim.slide_out_left);
     }
 
     private void initView() {

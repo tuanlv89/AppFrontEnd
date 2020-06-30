@@ -109,10 +109,12 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             case R.id.sign_in:
                 Intent signInIntent = new Intent(getContext(), SignIn.class);
                 startActivity(signInIntent);
+                getActivity().overridePendingTransition(R.anim.fade_in, R.anim.slide_out_left);
                 break;
             case R.id.sign_up:
                 Intent signUpIntent = new Intent(getContext(), SignUp.class);
                 startActivity(signUpIntent);
+                getActivity().overridePendingTransition(R.anim.fade_in, R.anim.slide_out_left);
                 break;
         }
 

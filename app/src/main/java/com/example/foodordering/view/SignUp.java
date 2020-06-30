@@ -26,6 +26,16 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         initView();
+
+        btnLogin.setOnClickListener(this);
+        btnSignIn.setOnClickListener(this);
+        btnClose.setOnClickListener(this);
+    }
+
+
+    @Override public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_enter_in, R.anim.slide_out_left);
     }
 
     private void signUp() {
@@ -105,11 +115,12 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_create:
+                signUp();
                 break;
             case R.id.sign_in:
                 Intent intent = new Intent(SignUp.this, SignIn.class);
-                startActivity(intent,
-                        ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
                 break;
             case R.id.close:
                 finish();
