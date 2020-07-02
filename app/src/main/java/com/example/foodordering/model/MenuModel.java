@@ -39,4 +39,14 @@ public class MenuModel {
     public void setTotal(int total) {
         this.total = total;
     }
+
+    @Override
+    public String toString() {
+        return "MenuModel{" +
+                "success=" + success +
+                ", message='" + message + '\'' +
+                ", result=" + result +
+                ", total=" + total +
+                '}';
+    }
 }

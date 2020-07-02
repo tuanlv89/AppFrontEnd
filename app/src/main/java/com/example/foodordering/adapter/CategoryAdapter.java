@@ -28,6 +28,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     LayoutInflater inflater;
     List<Category> categoryList;
 
+    public CategoryAdapter(Context context, List<Category> categoryList) {
+        this.context = context;
+        this.categoryList = categoryList;
+        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

@@ -1,17 +1,17 @@
 package com.example.foodordering.model;
 
 public class Restaurant {
-    private int Id;
+    private int ID;
     private String Name, Address, Phone, Image, PaymentUrl;
     private float Lat, Lng;
     private int UserOwner;
 
     public int getId() {
-        return Id;
+        return ID;
     }
 
     public void setId(int id) {
-        this.Id = id;
+        this.ID = id;
     }
 
     public String getName() {
@@ -82,7 +82,7 @@ public class Restaurant {
     @Override
     public String toString() {
         return "Restaurant{" +
-                "Id=" + Id +
+                "Id=" + ID +
                 ", Name='" + Name + '\'' +
                 ", Address='" + Address + '\'' +
                 ", Phone='" + Phone + '\'' +

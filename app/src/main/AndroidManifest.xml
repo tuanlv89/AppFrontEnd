@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.view.Menu"></activity>
+        <activity android:name=".ui.view.ListFood"></activity>
+        <activity android:name=".ui.view.Menu" />
         <activity android:name=".ui.view.SignIn" />
         <activity android:name=".ui.view.SignUp" />
         <activity android:name=".ui.view.Register" />

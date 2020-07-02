@@ -1,6 +1,7 @@
 package com.example.foodordering.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.foodordering.Interface.IOnRecyclerViewClickListener;
 import com.example.foodordering.R;
 import com.example.foodordering.model.Restaurant;
+import com.example.foodordering.model.eventbus.MenuItemEvent;
+import com.example.foodordering.ui.view.Menu;
+import com.example.foodordering.utils.Utils;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -46,7 +52,12 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         holder.tvRestaurantName.setText(new StringBuilder(restaurantList.get(position).getName()));
         holder.tvRestaurantAddress.setText(new StringBuilder(restaurantList.get(position).getAddress()));
 
-        holder.setListener((view, position1) -> Toast.makeText(context, restaurantList.get(position1).getName(), Toast.LENGTH_LONG).show());
+        holder.setListener((view, position1) -> {
+            Toast.makeText(context, restaurantList.get(position1).getName(), Toast.LENGTH_LONG).show();
+            Utils.currentRestaurant = restaurantList.get(position);
+            EventBus.getDefault().postSticky(new MenuItemEvent(true, restaurantList.get(position))); //Save this event in cache and can be listened from other activity
+            context.startActivity(new Intent(context, Menu.class));
+        });
     }
 
     @Override
