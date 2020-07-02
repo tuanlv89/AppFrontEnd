@@ -1,80 +1,95 @@
 package com.example.foodordering.model;
 
 public class Restaurant {
-    private int id;
-    private String name, address, phone, image, paymentUrl;
-    private float lat, lng;
-    private int userOwner;
+    private int Id;
+    private String Name, Address, Phone, Image, PaymentUrl;
+    private float Lat, Lng;
+    private int UserOwner;
 
     public int getId() {
-        return id;
+        return Id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.Id = id;
     }
 
     public String getName() {
-        return name;
+        return Name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.Name = name;
     }
 
     public String getAddress() {
-        return address;
+        return Address;
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        this.Address = address;
     }
 
     public String getPhone() {
-        return phone;
+        return Phone;
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.Phone = phone;
     }
 
     public String getImage() {
-        return image;
+        return Image;
     }
 
     public void setImage(String image) {
-        this.image = image;
+        this.Image = image;
     }
 
     public String getPaymentUrl() {
-        return paymentUrl;
+        return PaymentUrl;
     }
 
     public void setPaymentUrl(String paymentUrl) {
-        this.paymentUrl = paymentUrl;
+        this.PaymentUrl = paymentUrl;
     }
 
     public float getLat() {
-        return lat;
+        return Lat;
     }
 
     public void setLat(float lat) {
-        this.lat = lat;
+        this.Lat = lat;
     }
 
     public float getLng() {
-        return lng;
+        return Lng;
     }
 
     public void setLng(float lng) {
-        this.lng = lng;
+        this.Lng = lng;
     }
 
     public int getUserOwner() {
-        return userOwner;
+        return UserOwner;
     }
 
     public void setUserOwner(int userOwner) {
-        this.userOwner = userOwner;
+        this.UserOwner = userOwner;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "Id=" + Id +
+                ", Name='" + Name + '\'' +
+                ", Address='" + Address + '\'' +
+                ", Phone='" + Phone + '\'' +
+                ", Image='" + Image + '\'' +
+                ", PaymentUrl='" + PaymentUrl + '\'' +
+                ", Lat=" + Lat +
+                ", Lng=" + Lng +
+                '}';
     }
 }

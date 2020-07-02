@@ -9,7 +9,7 @@ import android.util.Log;
 
 import com.example.foodordering.utils.Utils;
 
-import static com.example.foodordering.MainActivity.notificationNetwork;
+import static com.example.foodordering.view.MainActivity.notificationNetwork;
 
 public class NetworkChangeReceiver extends BroadcastReceiver {
     @Override

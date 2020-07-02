@@ -1,16 +1,12 @@
-package com.example.foodordering;
+package com.example.foodordering.view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
-import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -18,10 +14,11 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.example.foodordering.fragment.CategoriesFragment;
-import com.example.foodordering.fragment.FavoritesFragment;
-import com.example.foodordering.fragment.HomeFragment;
-import com.example.foodordering.fragment.SettingsFragment;
+import com.example.foodordering.R;
+import com.example.foodordering.view.fragment.CategoriesFragment;
+import com.example.foodordering.view.fragment.FavoritesFragment;
+import com.example.foodordering.view.fragment.HomeFragment;
+import com.example.foodordering.view.fragment.SettingsFragment;
 import com.example.foodordering.receiver.NetworkChangeReceiver;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -43,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(receiver, filter);
 
 
-        //set fragment by click navigation
         mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

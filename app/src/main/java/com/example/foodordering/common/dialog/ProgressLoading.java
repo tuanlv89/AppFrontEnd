@@ -1,4 +1,4 @@
-package com.example.foodordering.dialog;
+package com.example.foodordering.common.dialog;
 
 import android.app.ProgressDialog;
 import android.content.Context;

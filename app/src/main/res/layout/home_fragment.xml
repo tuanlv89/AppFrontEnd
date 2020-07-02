@@ -13,6 +13,7 @@
             android:id="@+id/banner_slider"
             app:slider_loopSlides="true"
             android:paddingBottom="8dp"
+            app:slider_interval="2000"
             android:layout_width="match_parent"
             android:layout_height="150dp">
         </ss.com.bannerslider.Slider>
@@ -20,6 +21,7 @@
             android:id="@+id/recycler_restaurant"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+
     </LinearLayout>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

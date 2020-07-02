@@ -1,4 +1,4 @@
-package com.example.foodordering.fragment;
+package com.example.foodordering.view.fragment;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -11,23 +11,25 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.foodordering.R;
+import com.example.foodordering.adapter.RestaurantAdapter;
+import com.example.foodordering.adapter.RestaurantSliderAdapter;
 import com.example.foodordering.common.Common;
-import com.example.foodordering.dialog.ProgressLoading;
-import com.example.foodordering.model.RestaurantModel;
+import com.example.foodordering.common.dialog.ProgressLoading;
+import com.example.foodordering.model.Restaurant;
 import com.example.foodordering.model.eventbus.RestaurantLoadEvent;
 import com.example.foodordering.retrofit.IMyRestaurantAPI;
 import com.example.foodordering.retrofit.RetrofitClient;
-import com.example.foodordering.utils.Utils;
+import com.example.foodordering.services.PicassoLoadingService;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,7 +43,6 @@ public class HomeFragment extends Fragment {
     private SwipeRefreshLayout refreshLayout;
     @BindView(R.id.banner_slider) Slider bannerSlider;
     @BindView(R.id.recycler_restaurant) RecyclerView recyclerRestaurant;
-
 
     IMyRestaurantAPI myRestaurantAPI;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -60,26 +61,13 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
-
-    }
-
-
-    private void loadBanner() {
-
-    }
-    private void loadComic() {
-
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
-
-        //slider.init(new PicassoLoadingService());
+        ButterKnife.bind(this, view);
         refreshLayout = view.findViewById(R.id.swipe);
         refreshLayout.setColorSchemeResources(R.color.primaryColor, R.color.primaryDarkColor);
         /*if(Utils.isOnline) {
@@ -87,9 +75,7 @@ public class HomeFragment extends Fragment {
         }*/
 
         init();
-        initView();
         loadRestaurant();
-
 
         setOnRefreshListener();
         return view;
@@ -102,40 +88,73 @@ public class HomeFragment extends Fragment {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(restaurantModel -> {
-                            //use eventbus to send local event set adapter and silder
+                            //use EventBus to send local event set adapter and Slider
                             EventBus.getDefault().post(new RestaurantLoadEvent(true, restaurantModel.getResult()));
+                            Log.d("GET", restaurantModel.getResult().get(0).toString());
+                            Log.d("GET", restaurantModel.getResult().size()+"");
                         },
                         throwable -> {
                             EventBus.getDefault().post(new RestaurantLoadEvent(false, throwable.getMessage()));
+                            Log.d("GET ERROR", throwable.getMessage());
                 })
         );
 
     }
 
-    private void initView() {
-        ButterKnife.bind(getActivity());
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL, false);
-        recyclerRestaurant.setLayoutManager(layoutManager);
-    }
-
     private void init() {
         myRestaurantAPI = RetrofitClient.getInstance(Common.API_ENDPOINT).create(IMyRestaurantAPI.class);
+        Slider.init(new PicassoLoadingService());
     }
 
     private void setOnRefreshListener() {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadBanner();
-                loadComic();
+                //loadRestaurant();
             }
         });
         refreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                loadBanner();
-                loadComic();
+                //loadRestaurant();
             }
         });
+    }
+
+    //Register EventBus
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    //UnRegister EventBus
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    //Listen EventBus
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void processRestaurantLoadEvent(RestaurantLoadEvent event) {
+        if(event.isSuccess()) {
+            displayBanner(event.getRestaurantList());
+            displayRestaurant(event.getRestaurantList());
+        } else {
+            Log.d("ERROR", "[RESTAURANT LOAD] " + event.getMessage());
+            Toast.makeText(getContext(), "[RESTAURANT LOAD] " + event.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        ProgressLoading.dismiss();
+    }
+
+    private void displayRestaurant(List<Restaurant> restaurantList) {
+        recyclerRestaurant.setHasFixedSize(true);
+        RestaurantAdapter adapter = new RestaurantAdapter(getContext(), restaurantList);
+        recyclerRestaurant.setAdapter(adapter);
+    }
+
+    private void displayBanner(List<Restaurant> restaurantList) {
+        bannerSlider.setAdapter(new RestaurantSliderAdapter(restaurantList));
     }
 }
