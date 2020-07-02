@@ -11,19 +11,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.foodordering.R;
 import com.example.foodordering.adapter.RestaurantAdapter;
 import com.example.foodordering.adapter.RestaurantSliderAdapter;
-import com.example.foodordering.common.Common;
 import com.example.foodordering.common.dialog.ProgressLoading;
 import com.example.foodordering.model.Restaurant;
 import com.example.foodordering.model.eventbus.RestaurantLoadEvent;
 import com.example.foodordering.retrofit.IMyRestaurantAPI;
 import com.example.foodordering.retrofit.RetrofitClient;
 import com.example.foodordering.services.PicassoLoadingService;
+import com.example.foodordering.utils.Utils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -82,9 +83,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadRestaurant() {
-        //ProgressLoading.show(getContext());
+        ProgressLoading.show(getContext());
         compositeDisposable.add(
-                myRestaurantAPI.getAllRestaurant(Common.API_KEY)
+                myRestaurantAPI.getAllRestaurant(Utils.API_KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(restaurantModel -> {
@@ -98,11 +99,10 @@ public class HomeFragment extends Fragment {
                             Log.d("GET ERROR", throwable.getMessage());
                 })
         );
-
     }
 
     private void init() {
-        myRestaurantAPI = RetrofitClient.getInstance(Common.API_ENDPOINT).create(IMyRestaurantAPI.class);
+        myRestaurantAPI = RetrofitClient.getInstance(Utils.API_ENDPOINT).create(IMyRestaurantAPI.class);
         Slider.init(new PicassoLoadingService());
     }
 
@@ -110,15 +110,16 @@ public class HomeFragment extends Fragment {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                //loadRestaurant();
+                loadRestaurant();
             }
         });
         refreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                //loadRestaurant();
+                loadRestaurant();
             }
         });
+        ProgressLoading.dismiss();
     }
 
     //Register EventBus
@@ -151,6 +152,8 @@ public class HomeFragment extends Fragment {
     private void displayRestaurant(List<Restaurant> restaurantList) {
         recyclerRestaurant.setHasFixedSize(true);
         RestaurantAdapter adapter = new RestaurantAdapter(getContext(), restaurantList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        recyclerRestaurant.setLayoutManager(layoutManager);
         recyclerRestaurant.setAdapter(adapter);
     }
 

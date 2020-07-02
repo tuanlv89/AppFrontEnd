@@ -13,7 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodordering.Interface.IOnRecyclerViewClickListener;
 import com.example.foodordering.R;
-import com.example.foodordering.model.Restaurant;
+import com.example.foodordering.model.Category;
+import com.example.foodordering.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -22,46 +23,35 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.ViewHolder> {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
     Context context;
-    List<Restaurant> restaurantList;
     LayoutInflater inflater;
-
-    public RestaurantAdapter(Context context, List<Restaurant> restaurantList) {
-        this.context = context;
-        this.restaurantList = restaurantList;
-        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
+    List<Category> categoryList;
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_restaurant, parent, false);
+        View view = inflater.inflate(R.layout.item_category, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Picasso.get().load(restaurantList.get(position).getImage()).into(holder.imgRestaurant);
-        holder.tvRestaurantName.setText(new StringBuilder(restaurantList.get(position).getName()));
-        holder.tvRestaurantAddress.setText(new StringBuilder(restaurantList.get(position).getAddress()));
-
-        holder.setListener((view, position1) -> Toast.makeText(context, restaurantList.get(position1).getName(), Toast.LENGTH_LONG).show());
+        Picasso.get().load(categoryList.get(position).getImage()).into(holder.imgCategory);
+        holder.tvCategory.setText(categoryList.get(position).getName());
+        holder.setListener((view, position1) -> Toast.makeText(context, categoryList.get(position1).getName(), Toast.LENGTH_LONG).show());
     }
 
     @Override
     public int getItemCount() {
-        return restaurantList.size();
+        return categoryList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.tv_restaurant_name)
-        TextView tvRestaurantName;
-        @BindView(R.id.tv_restaurant_address)
-        TextView tvRestaurantAddress;
-        @BindView(R.id.img_restaurant)
-        ImageView imgRestaurant;
-
+        @BindView(R.id.img_category)
+        ImageView imgCategory;
+        @BindView(R.id.tv_category)
+        TextView tvCategory;
         IOnRecyclerViewClickListener listener;
 
         public void setListener(IOnRecyclerViewClickListener listener) {
@@ -78,6 +68,19 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         @Override
         public void onClick(View v) {
             listener.onCLick(v, getAdapterPosition());
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if(categoryList.size() == 1) {
+            return Utils.ONE_COLUMN_TYPE;
+        } else {
+            if(categoryList.size() % 2 == 0) {
+                return Utils.ONE_COLUMN_TYPE;
+            } else {
+                return (position > 1 && position == categoryList.size()-1) ? Utils.FULL_WIDTH_COLUMN : Utils.ONE_COLUMN_TYPE;
+            }
         }
     }
 }
