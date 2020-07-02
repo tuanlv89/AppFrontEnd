@@ -12,12 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.Menu"></activity>
-        <activity android:name=".view.SignIn" />
-        <activity android:name=".view.SignUp" />
-        <activity android:name=".view.Register" />
-        <activity android:name=".view.MainActivity" />
-        <activity android:name=".view.SplashScreen">
+        <activity android:name=".ui.view.Menu"></activity>
+        <activity android:name=".ui.view.SignIn" />
+        <activity android:name=".ui.view.SignUp" />
+        <activity android:name=".ui.view.Register" />
+        <activity android:name=".ui.view.MainActivity" />
+        <activity android:name=".ui.view.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

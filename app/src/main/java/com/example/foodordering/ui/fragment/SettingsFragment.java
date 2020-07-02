@@ -1,4 +1,4 @@
-package com.example.foodordering.view.fragment;
+package com.example.foodordering.ui.fragment;
 
 import android.content.ContentResolver;
 import android.content.DialogInterface;
@@ -18,9 +18,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.foodordering.R;
-import com.example.foodordering.view.SplashScreen;
-import com.example.foodordering.view.SignIn;
-import com.example.foodordering.view.SignUp;
+import com.example.foodordering.ui.view.SplashScreen;
+import com.example.foodordering.ui.view.SignIn;
+import com.example.foodordering.ui.view.SignUp;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener {

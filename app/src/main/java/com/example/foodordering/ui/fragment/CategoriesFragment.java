@@ -1,4 +1,4 @@
-package com.example.foodordering.view.fragment;
+package com.example.foodordering.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

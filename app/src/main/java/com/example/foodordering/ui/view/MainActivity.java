@@ -1,4 +1,4 @@
-package com.example.foodordering.view;
+package com.example.foodordering.ui.view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,10 +15,10 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.example.foodordering.R;
-import com.example.foodordering.view.fragment.CategoriesFragment;
-import com.example.foodordering.view.fragment.FavoritesFragment;
-import com.example.foodordering.view.fragment.HomeFragment;
-import com.example.foodordering.view.fragment.SettingsFragment;
+import com.example.foodordering.ui.fragment.CategoriesFragment;
+import com.example.foodordering.ui.fragment.FavoritesFragment;
+import com.example.foodordering.ui.fragment.HomeFragment;
+import com.example.foodordering.ui.fragment.SettingsFragment;
 import com.example.foodordering.receiver.NetworkChangeReceiver;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 

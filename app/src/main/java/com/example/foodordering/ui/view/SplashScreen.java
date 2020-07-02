@@ -1,4 +1,4 @@
-package com.example.foodordering.view;
+package com.example.foodordering.ui.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
