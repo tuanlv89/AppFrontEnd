@@ -2,7 +2,7 @@ package com.example.foodordering.adapter;
 
 import android.util.Log;
 
-import com.example.foodordering.model.Restaurant;
+import com.example.foodordering.model.Restaurant.Restaurant;
 
 import java.util.List;
 

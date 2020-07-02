@@ -1,4 +1,4 @@
-package com.example.foodordering.model;
+package com.example.foodordering.model.User;
 
 import java.util.List;
 

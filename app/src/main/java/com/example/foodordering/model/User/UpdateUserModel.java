@@ -1,11 +1,8 @@
-package com.example.foodordering.model;
+package com.example.foodordering.model.User;
 
-import java.util.List;
-
-public class RestaurantModel {
+public class UpdateUserModel {
     private boolean success;
     private String message;
-    private List<Restaurant> result;
 
     public boolean isSuccess() {
         return success;
@@ -21,13 +18,5 @@ public class RestaurantModel {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public List<Restaurant> getResult() {
-        return result;
-    }
-
-    public void setResult(List<Restaurant> result) {
-        this.result = result;
     }
 }

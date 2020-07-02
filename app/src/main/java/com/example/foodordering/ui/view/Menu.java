@@ -123,6 +123,8 @@ public class Menu extends AppCompatActivity {
         if(event.isSuccess()) {
             Picasso.get().load(event.getRestaurant().getImage()).into(imgRestaurant);
             toolbar.setTitle(event.getRestaurant().getName());
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
             // Request category by restaurantId
             compositeDisposable.add(
                     myRestaurantAPI.getCategory(Utils.API_KEY, event.getRestaurant().getId())

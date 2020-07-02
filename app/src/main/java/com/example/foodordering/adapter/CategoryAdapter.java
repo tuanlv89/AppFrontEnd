@@ -1,6 +1,7 @@
 package com.example.foodordering.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodordering.Interface.IOnRecyclerViewClickListener;
 import com.example.foodordering.R;
-import com.example.foodordering.model.Category;
+import com.example.foodordering.model.Menu.Category;
+import com.example.foodordering.model.eventbus.FoodListEvent;
+import com.example.foodordering.ui.view.ListFood;
 import com.example.foodordering.utils.Utils;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -45,7 +50,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Picasso.get().load(categoryList.get(position).getImage()).into(holder.imgCategory);
         holder.tvCategory.setText(categoryList.get(position).getName());
-        holder.setListener((view, position1) -> Toast.makeText(context, categoryList.get(position1).getName(), Toast.LENGTH_LONG).show());
+        holder.setListener((view, position1) -> {
+            Toast.makeText(context, categoryList.get(position1).getName(), Toast.LENGTH_LONG).show();
+            EventBus.getDefault().postSticky(new FoodListEvent(true, categoryList.get(position)));
+            context.startActivity(new Intent(context, ListFood.class));
+        });
     }
 
     @Override

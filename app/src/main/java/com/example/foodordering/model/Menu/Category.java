@@ -1,4 +1,4 @@
-package com.example.foodordering.model;
+package com.example.foodordering.model.Menu;
 
 public class Category {
     private int ID;

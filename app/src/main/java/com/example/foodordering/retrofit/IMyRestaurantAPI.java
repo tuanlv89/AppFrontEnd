@@ -1,9 +1,10 @@
 package com.example.foodordering.retrofit;
 
-import com.example.foodordering.model.MenuModel;
-import com.example.foodordering.model.RestaurantModel;
-import com.example.foodordering.model.UpdateUserModel;
-import com.example.foodordering.model.UserModel;
+import com.example.foodordering.model.Food.FoodModel;
+import com.example.foodordering.model.Menu.MenuModel;
+import com.example.foodordering.model.Restaurant.RestaurantModel;
+import com.example.foodordering.model.User.UpdateUserModel;
+import com.example.foodordering.model.User.UserModel;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -31,4 +32,8 @@ public interface IMyRestaurantAPI {
     // MENU
     @GET("menu")
     Observable<MenuModel> getCategory(@Query("key") String apiKey, @Query("restaurantId") int restaurantId);
+
+    //FOOD
+    @GET("food")
+    Observable<FoodModel> getFoodByMenuId(@Query("key") String apiKey, @Query("menuId") int menuId);
 }

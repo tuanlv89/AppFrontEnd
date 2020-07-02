@@ -1,4 +1,4 @@
-package com.example.foodordering.model;
+package com.example.foodordering.model.User;
 
 public class User {
     private String email;

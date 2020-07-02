@@ -1,4 +1,4 @@
-package com.example.foodordering.model;
+package com.example.foodordering.model.Restaurant;
 
 public class Restaurant {
     private int ID;

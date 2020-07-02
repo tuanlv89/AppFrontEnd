@@ -1,6 +1,6 @@
 package com.example.foodordering.utils;
 
-import com.example.foodordering.model.Restaurant;
+import com.example.foodordering.model.Restaurant.Restaurant;
 
 public class Utils {
     public static final int ONE_COLUMN_TYPE = 1;
