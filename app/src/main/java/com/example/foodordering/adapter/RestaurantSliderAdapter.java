@@ -1,5 +1,7 @@
 package com.example.foodordering.adapter;
 
+import android.util.Log;
+
 import com.example.foodordering.model.Restaurant;
 
 import java.util.List;
@@ -13,6 +15,7 @@ public class RestaurantSliderAdapter extends SliderAdapter {
 
     public RestaurantSliderAdapter(List<Restaurant> restaurantList) {
         this.restaurantList = restaurantList;
+        Log.d("GET RES", restaurantList.get(0).toString());
     }
 
     @Override

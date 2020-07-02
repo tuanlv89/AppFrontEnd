@@ -82,7 +82,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadRestaurant() {
-        ProgressLoading.show(getContext());
+        //ProgressLoading.show(getContext());
         compositeDisposable.add(
                 myRestaurantAPI.getAllRestaurant(Common.API_KEY)
                 .subscribeOn(Schedulers.io())
@@ -156,5 +156,6 @@ public class HomeFragment extends Fragment {
 
     private void displayBanner(List<Restaurant> restaurantList) {
         bannerSlider.setAdapter(new RestaurantSliderAdapter(restaurantList));
+        bannerSlider.setInterval(2000);
     }
 }

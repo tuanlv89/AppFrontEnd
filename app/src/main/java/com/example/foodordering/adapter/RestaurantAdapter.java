@@ -42,7 +42,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Picasso.get().load(restaurantList.get(position).getImage()).into(holder.imgRestaurant);
+        // Picasso.get().load(restaurantList.get(position).getImage()).into(holder.imgRestaurant);
         holder.tvRestaurantName.setText(new StringBuilder(restaurantList.get(position).getName()));
         holder.tvRestaurantAddress.setText(new StringBuilder(restaurantList.get(position).getAddress()));
 
