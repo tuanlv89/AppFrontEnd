@@ -45,6 +45,9 @@ public class ListFood extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         compositeDisposable.clear();
+        if(foodAdapter != null) {
+            foodAdapter.onStop();
+        }
         super.onDestroy();
     }
 

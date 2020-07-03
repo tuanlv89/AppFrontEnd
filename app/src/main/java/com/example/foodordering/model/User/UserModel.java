@@ -6,6 +6,7 @@ public class UserModel {
     private boolean success;
     private String message;
     private List<User> result;
+    private String token;
 
     public boolean isSuccess() {
         return success;
@@ -29,5 +30,13 @@ public class UserModel {
 
     public void setResult(List<User> result) {
         this.result = result;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

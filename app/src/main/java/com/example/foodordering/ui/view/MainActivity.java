@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.foodordering.R;
 import com.example.foodordering.ui.fragment.CategoriesFragment;
@@ -21,6 +23,12 @@ import com.example.foodordering.ui.fragment.HomeFragment;
 import com.example.foodordering.ui.fragment.SettingsFragment;
 import com.example.foodordering.receiver.NetworkChangeReceiver;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView mMainNav;
@@ -38,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         receiver = new NetworkChangeReceiver();
         final IntentFilter filter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
         registerReceiver(receiver, filter);
-
+        requestPermission();
 
         mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -61,7 +69,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
 
+    private void requestPermission() {
+        Log.d("AAA", "vao ne");
+        Dexter.withContext(MainActivity.this)
+                .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                .withListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+                        Log.d("AAA", "OK");
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+                        Toast.makeText(MainActivity.this, "You must accept this permission to use this app!", Toast.LENGTH_LONG).show();
+                        Log.d("AAA", "DENIED");
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+                        Log.d("AAA", "AAAAAAA");
+                    }
+                });
+        Log.d("AAA", "Co vao");
     }
 
     public static void notificationNetwork(boolean value) {

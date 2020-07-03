@@ -16,6 +16,9 @@ import android.widget.Toast;
 
 import com.example.foodordering.R;
 import com.example.foodordering.adapter.CategoryAdapter;
+import com.example.foodordering.database.CartDataSource;
+import com.example.foodordering.database.CartDatabase;
+import com.example.foodordering.database.LocalCartDataSource;
 import com.example.foodordering.model.eventbus.MenuItemEvent;
 import com.example.foodordering.retrofit.IMyRestaurantAPI;
 import com.example.foodordering.retrofit.RetrofitClient;
@@ -31,8 +34,10 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class Menu extends AppCompatActivity {
@@ -52,6 +57,8 @@ public class Menu extends AppCompatActivity {
 
     CategoryAdapter categoryAdapter;
 
+    CartDataSource cartDataSource;
+
     @Override
     protected void onDestroy() {
         compositeDisposable.clear();
@@ -64,10 +71,40 @@ public class Menu extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         ButterKnife.bind(this);
         init();
+        countCart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        countCart();
+    }
+
+    private void countCart() {
+        cartDataSource.countItemInCart(Utils.currentUser.getUserPhone(), Utils.currentRestaurant.getId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<Integer>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(Integer integer) {
+                        badge.setText(integer+"");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("ERROR CART", e.getMessage());
+                    }
+                });
     }
 
     private void init() {
         myRestaurantAPI = RetrofitClient.getInstance(Utils.API_ENDPOINT).create(IMyRestaurantAPI.class);
+        cartDataSource = new LocalCartDataSource(CartDatabase.getInstance(this).cartDAO());
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         // set column for recyclerview

@@ -17,6 +17,7 @@ import com.example.foodordering.R;
 import com.example.foodordering.model.Restaurant.Restaurant;
 import com.example.foodordering.model.eventbus.MenuItemEvent;
 import com.example.foodordering.ui.view.Menu;
+import com.example.foodordering.ui.view.SignIn;
 import com.example.foodordering.utils.Utils;
 import com.squareup.picasso.Picasso;
 
@@ -56,7 +57,11 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             Toast.makeText(context, restaurantList.get(position1).getName(), Toast.LENGTH_LONG).show();
             Utils.currentRestaurant = restaurantList.get(position);
             EventBus.getDefault().postSticky(new MenuItemEvent(true, restaurantList.get(position))); //Save this event in cache and can be listened from other activity
-            context.startActivity(new Intent(context, Menu.class));
+            if(Utils.currentUser == null) {
+                context.startActivity(new Intent(context, SignIn.class));
+            } else {
+                context.startActivity(new Intent(context, Menu.class));
+            }
         });
     }
 

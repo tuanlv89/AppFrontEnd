@@ -14,7 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodordering.Interface.IOnFoodCartClick;
 import com.example.foodordering.R;
+import com.example.foodordering.database.CartDataSource;
+import com.example.foodordering.database.CartDatabase;
+import com.example.foodordering.database.CartItem;
+import com.example.foodordering.database.LocalCartDataSource;
 import com.example.foodordering.model.Food.Food;
+import com.example.foodordering.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -22,16 +27,28 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.Completable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder>  {
     Context context;
     LayoutInflater inflater;
     List<Food> foodList;
+    CompositeDisposable compositeDisposable;
+    CartDataSource cartDataSource;
+
+    public void onStop() {
+        compositeDisposable.clear();
+    }
 
     public FoodAdapter(Context context, List<Food> foodList) {
         this.context = context;
         this.foodList = foodList;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        compositeDisposable = new CompositeDisposable();
+        cartDataSource = new LocalCartDataSource(CartDatabase.getInstance(context).cartDAO());
     }
 
     @NonNull
@@ -52,6 +69,29 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder>  {
             public void onFoodItemCLickListener(View view, int position, boolean isCart) {
                 if(isCart) {
                     Toast.makeText(context, "Cart click", Toast.LENGTH_LONG).show();
+                    CartItem cartItem = new CartItem();
+                    cartItem.setFoodId(foodList.get(position).getID());
+                    cartItem.setFoodName(foodList.get(position).getName());
+                    cartItem.setFoodPrice(foodList.get(position).getPrice());
+                    cartItem.setFoodImage(foodList.get(position).getImage());
+                    cartItem.setFoodQuantity(1);
+                    cartItem.setUserPhone(Utils.currentRestaurant.getPhone());
+                    cartItem.setRestaurantId(Utils.currentRestaurant.getId());
+                    cartItem.setFoodAddon("NORMAL");
+                    cartItem.setFoodSize("NORMAL");
+                    cartItem.setFoodExtraPrice(0.0);
+
+                    compositeDisposable.add(
+                            cartDataSource.insertOrReplaceAll(cartItem)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(() -> {
+                                Toast.makeText(context, "ADDED TO CART", Toast.LENGTH_LONG).show();
+                                    },
+                                    throwable -> {
+                                Log.d("ERROR CART", throwable.getMessage());
+                                    })
+                    );
                 } else {
                     Toast.makeText(context, "Item click", Toast.LENGTH_LONG).show();
                 }

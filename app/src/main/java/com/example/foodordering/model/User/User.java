@@ -1,40 +1,42 @@
 package com.example.foodordering.model.User;
 
 public class User {
-    private String email;
-    private String userPhone;
+    private String Email;
+    private String UserPhone;
     private String Address;
-    private String name;
+    private String Name;
+    private String token;
 
     public User() {
     }
 
     public User(String email, String userPhone) {
-        this.email = email;
-        this.userPhone = userPhone;
+        this.Email = email;
+        this.UserPhone = userPhone;
     }
 
-    public User(String email, String userPhone, String address, String name) {
-        this.email = email;
-        this.userPhone = userPhone;
-        Address = address;
-        this.name = name;
+    public User(String email, String userPhone, String address, String name, String token) {
+        this.Email = email;
+        this.UserPhone = userPhone;
+        this.Address = address;
+        this.Name = name;
+        this.token = token;
     }
 
     public String getEmail() {
-        return email;
+        return Email;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        Email = email;
     }
 
     public String getUserPhone() {
-        return userPhone;
+        return UserPhone;
     }
 
     public void setUserPhone(String userPhone) {
-        this.userPhone = userPhone;
+        UserPhone = userPhone;
     }
 
     public String getAddress() {
@@ -46,10 +48,28 @@ public class User {
     }
 
     public String getName() {
-        return name;
+        return Name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        Name = name;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "Email='" + Email + '\'' +
+                ", UserPhone='" + UserPhone + '\'' +
+                ", Address='" + Address + '\'' +
+                ", Name='" + Name + '\'' +
+                '}';
     }
 }

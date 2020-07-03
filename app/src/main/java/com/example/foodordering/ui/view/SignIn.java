@@ -3,14 +3,31 @@ package com.example.foodordering.ui.view;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.foodordering.R;
+import com.example.foodordering.common.dialog.ProgressLoading;
+import com.example.foodordering.model.User.User;
+import com.example.foodordering.model.eventbus.UserEvent;
+import com.example.foodordering.retrofit.IMyRestaurantAPI;
+import com.example.foodordering.retrofit.RetrofitClient;
+import com.example.foodordering.utils.Utils;
 import com.google.android.material.textfield.TextInputLayout;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class SignIn extends AppCompatActivity implements View.OnClickListener {
     CardView panel;
@@ -18,12 +35,21 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
     TextView btnSignIn, btnFacebook;
     ImageView close;
 
+    IMyRestaurantAPI myRestaurantAPI;
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+    @Override
+    protected void onDestroy() {
+        compositeDisposable.clear();
+        super.onDestroy();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        myRestaurantAPI = RetrofitClient.getInstance(Utils.API_ENDPOINT).create(IMyRestaurantAPI.class);
         initView();
-
         panel.setOnClickListener(this);
         btnSignIn.setOnClickListener(this);
         btnFacebook.setOnClickListener(this);
@@ -102,17 +128,44 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
         String email="",password="";
 
         EditText editText = edtEmail.getEditText();
+
         if(editText != null) email = editText.getText().toString();
 
         editText = edtPassword.getEditText();
         if(editText != null) password = editText.getText().toString();
 
-
+        Log.d("AAA", "vao singin");
         if(validateAccount(email,password)) {
             //login
+            ProgressLoading.show(SignIn.this);
+            compositeDisposable.add(
+                    myRestaurantAPI.login(email, password)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                userModel -> {
+                                    Log.d("AAA", "post ne");
+                                    if(userModel.isSuccess()) {
+                                        Log.d("AAA", "success");
+                                        String Email = userModel.getResult().get(0).getEmail();
+                                        String address = userModel.getResult().get(0).getAddress();
+                                        String userPhone = userModel.getResult().get(0).getUserPhone();
+                                        String name = userModel.getResult().get(0).getName();
+                                        String token = userModel.getResult().get(0).getToken();
+                                        User user = new User(Email, userPhone, address, name, token);
+                                        Log.d("GET USER1", user.toString());
+                                        Utils.currentUser = user;
+                                        Log.d("GET USER2", Utils.currentUser.toString());
+                                        startActivity(new Intent(SignIn.this, MainActivity.class));
+                                    } else Toast.makeText(SignIn.this, userModel.getMessage(), Toast.LENGTH_LONG).show();
+                                },
+                                throwable -> {
+                                    Log.d("ERROR USER", throwable.getMessage());
+                                    Toast.makeText(SignIn.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+                                })
+            );
+            ProgressLoading.dismiss();
         }
 
     }
-
-
 }

@@ -1,5 +1,6 @@
 package com.example.foodordering.ui.fragment;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +26,12 @@ import com.example.foodordering.retrofit.IMyRestaurantAPI;
 import com.example.foodordering.retrofit.RetrofitClient;
 import com.example.foodordering.services.PicassoLoadingService;
 import com.example.foodordering.utils.Utils;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -64,6 +71,12 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadRestaurant();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,7 +92,30 @@ public class HomeFragment extends Fragment {
         loadRestaurant();
 
         setOnRefreshListener();
+        requestPermission();
         return view;
+    }
+
+    private void requestPermission() {
+        Dexter.withContext(getContext() )
+                .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                .withListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+                        Log.d("AAA", "OK");
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+                        Toast.makeText(getContext(), "You must accept this permission to use this app!", Toast.LENGTH_LONG).show();
+                        Log.d("AAA", "DENIED");
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+                        Log.d("AAA", "AAAAAAA");
+                    }
+                });
     }
 
     private void loadRestaurant() {
@@ -99,6 +135,7 @@ public class HomeFragment extends Fragment {
                             Log.d("GET ERROR", throwable.getMessage());
                 })
         );
+        ProgressLoading.dismiss();
     }
 
     private void init() {
