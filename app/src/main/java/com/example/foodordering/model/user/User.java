@@ -1,4 +1,4 @@
-package com.example.foodordering.model.User;
+package com.example.foodordering.model.user;
 
 public class User {
     private String Email;
@@ -70,6 +70,7 @@ public class User {
                 ", UserPhone='" + UserPhone + '\'' +
                 ", Address='" + Address + '\'' +
                 ", Name='" + Name + '\'' +
+                ", token='" + token + '\'' +
                 '}';
     }
 }

@@ -1,4 +1,4 @@
-package com.example.foodordering.model.User;
+package com.example.foodordering.model.user;
 
 public class UpdateUserModel {
     private boolean success;

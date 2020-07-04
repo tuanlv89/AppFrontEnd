@@ -1,11 +1,12 @@
-package com.example.foodordering.model.Restaurant;
+package com.example.foodordering.model.food;
 
 import java.util.List;
 
-public class RestaurantModel {
+public class FoodModel {
     private boolean success;
     private String message;
-    private List<Restaurant> result;
+    private List<Food> result;
+    private int total;
 
     public boolean isSuccess() {
         return success;
@@ -23,11 +24,19 @@ public class RestaurantModel {
         this.message = message;
     }
 
-    public List<Restaurant> getResult() {
+    public List<Food> getResult() {
         return result;
     }
 
-    public void setResult(List<Restaurant> result) {
+    public void setResult(List<Food> result) {
         this.result = result;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
     }
 }

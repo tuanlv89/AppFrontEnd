@@ -14,16 +14,11 @@ import android.widget.Toast;
 
 import com.example.foodordering.R;
 import com.example.foodordering.common.dialog.ProgressLoading;
-import com.example.foodordering.model.User.User;
-import com.example.foodordering.model.eventbus.UserEvent;
+import com.example.foodordering.model.user.User;
 import com.example.foodordering.retrofit.IMyRestaurantAPI;
 import com.example.foodordering.retrofit.RetrofitClient;
 import com.example.foodordering.utils.Utils;
 import com.google.android.material.textfield.TextInputLayout;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -134,7 +129,6 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
         editText = edtPassword.getEditText();
         if(editText != null) password = editText.getText().toString();
 
-        Log.d("AAA", "vao singin");
         if(validateAccount(email,password)) {
             //login
             ProgressLoading.show(SignIn.this);
@@ -144,18 +138,14 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 userModel -> {
-                                    Log.d("AAA", "post ne");
                                     if(userModel.isSuccess()) {
-                                        Log.d("AAA", "success");
                                         String Email = userModel.getResult().get(0).getEmail();
                                         String address = userModel.getResult().get(0).getAddress();
                                         String userPhone = userModel.getResult().get(0).getUserPhone();
                                         String name = userModel.getResult().get(0).getName();
-                                        String token = userModel.getResult().get(0).getToken();
+                                        String token = userModel.getToken();
                                         User user = new User(Email, userPhone, address, name, token);
-                                        Log.d("GET USER1", user.toString());
                                         Utils.currentUser = user;
-                                        Log.d("GET USER2", Utils.currentUser.toString());
                                         startActivity(new Intent(SignIn.this, MainActivity.class));
                                     } else Toast.makeText(SignIn.this, userModel.getMessage(), Toast.LENGTH_LONG).show();
                                 },

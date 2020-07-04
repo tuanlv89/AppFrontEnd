@@ -1,12 +1,11 @@
-package com.example.foodordering.model.User;
+package com.example.foodordering.model.restaurant;
 
 import java.util.List;
 
-public class UserModel {
+public class RestaurantModel {
     private boolean success;
     private String message;
-    private List<User> result;
-    private String token;
+    private List<Restaurant> result;
 
     public boolean isSuccess() {
         return success;
@@ -24,19 +23,11 @@ public class UserModel {
         this.message = message;
     }
 
-    public List<User> getResult() {
+    public List<Restaurant> getResult() {
         return result;
     }
 
-    public void setResult(List<User> result) {
+    public void setResult(List<Restaurant> result) {
         this.result = result;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 }

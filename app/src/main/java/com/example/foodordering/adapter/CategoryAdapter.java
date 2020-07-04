@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodordering.Interface.IOnRecyclerViewClickListener;
 import com.example.foodordering.R;
-import com.example.foodordering.model.Menu.Category;
+import com.example.foodordering.model.menu.Category;
 import com.example.foodordering.model.eventbus.FoodListEvent;
 import com.example.foodordering.ui.view.ListFood;
 import com.example.foodordering.utils.Utils;

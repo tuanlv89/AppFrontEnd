@@ -22,6 +22,7 @@ import com.example.foodordering.ui.fragment.FavoritesFragment;
 import com.example.foodordering.ui.fragment.HomeFragment;
 import com.example.foodordering.ui.fragment.SettingsFragment;
 import com.example.foodordering.receiver.NetworkChangeReceiver;
+import com.example.foodordering.utils.Utils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -62,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
                         setFragment(FavoritesFragment.newInstance());
                         return true;
                     case R.id.nav_settings:
-                        setFragment(SettingsFragment.newInstance());
+                        if(Utils.currentUser != null) setFragment(FavoritesFragment.newInstance());
+                        else setFragment(SettingsFragment.newInstance());
                         return true;
                     default: return false;
                 }

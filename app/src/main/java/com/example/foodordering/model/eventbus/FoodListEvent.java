@@ -1,6 +1,6 @@
 package com.example.foodordering.model.eventbus;
 
-import com.example.foodordering.model.Menu.Category;
+import com.example.foodordering.model.menu.Category;
 
 public class FoodListEvent {
     private boolean success;

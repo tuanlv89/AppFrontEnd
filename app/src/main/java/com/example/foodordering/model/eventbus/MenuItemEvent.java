@@ -1,6 +1,6 @@
 package com.example.foodordering.model.eventbus;
 
-import com.example.foodordering.model.Restaurant.Restaurant;
+import com.example.foodordering.model.restaurant.Restaurant;
 
 public class MenuItemEvent {
     private boolean success;

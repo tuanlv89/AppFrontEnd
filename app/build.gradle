@@ -63,4 +63,6 @@ dependencies {
     //Request permission
     implementation 'com.karumi:dexter:6.2.0'
 
+    implementation 'com.github.florent37:expansionpanel:1.2.4'
+
 }

@@ -71,27 +71,31 @@ public class Menu extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         ButterKnife.bind(this);
         init();
+        Log.d("AAA", "Cart nè1");
         countCart();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d("AAA", "Cart nè2");
         countCart();
     }
 
     private void countCart() {
+        Log.d("AAA", "Cart nè3" + Utils.currentUser.getUserPhone() + Utils.currentRestaurant.getId());
         cartDataSource.countItemInCart(Utils.currentUser.getUserPhone(), Utils.currentRestaurant.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<Integer>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        Log.d("AAA", "Cart nè4");
                     }
 
                     @Override
                     public void onSuccess(Integer integer) {
+                        Log.d("AAA", "Cart nè5" + integer);
                         badge.setText(integer+"");
                     }
 
@@ -100,6 +104,7 @@ public class Menu extends AppCompatActivity {
                         Log.d("ERROR CART", e.getMessage());
                     }
                 });
+        Log.d("AAA", "Cart nè6");
     }
 
     private void init() {
@@ -162,9 +167,10 @@ public class Menu extends AppCompatActivity {
             toolbar.setTitle(event.getRestaurant().getName());
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+            Log.d("TOKEN", "Bearer "+Utils.currentUser.getToken() + Utils.currentUser.toString());
             // Request category by restaurantId
             compositeDisposable.add(
-                    myRestaurantAPI.getCategory(Utils.API_KEY, event.getRestaurant().getId())
+                    myRestaurantAPI.getCategory("Bearer "+ Utils.currentUser.getToken(), Utils.API_KEY, event.getRestaurant().getId())
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(menuModel -> {

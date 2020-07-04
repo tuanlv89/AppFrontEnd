@@ -1,6 +1,4 @@
-package com.example.foodordering.model.Menu;
-
-import com.example.foodordering.model.Menu.Category;
+package com.example.foodordering.model.menu;
 
 import java.util.List;
 

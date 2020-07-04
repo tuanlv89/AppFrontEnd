@@ -1,12 +1,12 @@
-package com.example.foodordering.model.Food;
+package com.example.foodordering.model.user;
 
 import java.util.List;
 
-public class FoodModel {
+public class UserModel {
     private boolean success;
     private String message;
-    private List<Food> result;
-    private int total;
+    private List<User> result;
+    private String token;
 
     public boolean isSuccess() {
         return success;
@@ -24,19 +24,19 @@ public class FoodModel {
         this.message = message;
     }
 
-    public List<Food> getResult() {
+    public List<User> getResult() {
         return result;
     }
 
-    public void setResult(List<Food> result) {
+    public void setResult(List<User> result) {
         this.result = result;
     }
 
-    public int getTotal() {
-        return total;
+    public String getToken() {
+        return token;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
+    public void setToken(String token) {
+        this.token = token;
     }
 }

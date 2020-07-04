@@ -1,5 +1,7 @@
 package com.example.foodordering.database;
 
+import android.util.Log;
+
 import java.util.List;
 
 import io.reactivex.Completable;
@@ -20,7 +22,13 @@ public class LocalCartDataSource implements CartDataSource {
 
     @Override
     public Single<Integer> countItemInCart(String userPhone, int restaurantId) {
+        Log.d("SSS", cartDAO.countItemInCart(userPhone, restaurantId)+"");
         return cartDAO.countItemInCart(userPhone, restaurantId);
+    }
+
+    @Override
+    public Single<Long> sumPrice(String userPhone, int restaurantId) {
+        return cartDAO.sumPrice(userPhone, restaurantId);
     }
 
     @Override

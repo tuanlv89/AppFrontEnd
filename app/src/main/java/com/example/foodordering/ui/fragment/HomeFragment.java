@@ -20,7 +20,7 @@ import com.example.foodordering.R;
 import com.example.foodordering.adapter.RestaurantAdapter;
 import com.example.foodordering.adapter.RestaurantSliderAdapter;
 import com.example.foodordering.common.dialog.ProgressLoading;
-import com.example.foodordering.model.Restaurant.Restaurant;
+import com.example.foodordering.model.restaurant.Restaurant;
 import com.example.foodordering.model.eventbus.RestaurantLoadEvent;
 import com.example.foodordering.retrofit.IMyRestaurantAPI;
 import com.example.foodordering.retrofit.RetrofitClient;

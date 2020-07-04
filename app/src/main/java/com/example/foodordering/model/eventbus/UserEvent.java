@@ -1,6 +1,6 @@
 package com.example.foodordering.model.eventbus;
 
-import com.example.foodordering.model.User.User;
+import com.example.foodordering.model.user.User;
 
 import java.util.List;
 
