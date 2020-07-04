@@ -25,6 +25,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content">
             <TextView
+                android:textSize="20sp"
                 android:id="@+id/tv_food_name"
                 android:text="Cơm rang cải bò"
                 android:textColor="#fff"
@@ -37,8 +38,15 @@
                 android:textStyle="italic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+            <TextView
+                android:textSize="18sp"
+                android:id="@+id/tv_restaurant_name"
+                android:text="Restaurant A"
+                android:textColor="#fff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
-        
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_weight="0.1"
@@ -47,18 +55,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content">
             <ImageView
-                android:layout_marginBottom="8dp"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:id="@+id/img_cart"
                 android:src="@drawable/ic_shopping_cart_white_24dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <ImageView
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:id="@+id/img_favorite"
-                android:src="@drawable/ic_favorite_border_red_24dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>

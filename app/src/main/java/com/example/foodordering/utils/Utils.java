@@ -1,10 +1,13 @@
 package com.example.foodordering.utils;
 
 import com.example.foodordering.model.addOn.AddOn;
+import com.example.foodordering.model.favorite.Favorite;
+import com.example.foodordering.model.favorite.FavoriteId;
 import com.example.foodordering.model.restaurant.Restaurant;
 import com.example.foodordering.model.user.User;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Utils {
@@ -16,4 +19,18 @@ public class Utils {
     public static Restaurant currentRestaurant;
     public static User currentUser = null;
     public static Set<AddOn> addOnList = new HashSet<>();
+    public static List<FavoriteId> currentFavOfRestaurant;
+
+    public static boolean checkFavorite(int id) {
+        for (FavoriteId item: currentFavOfRestaurant) {
+            if(item.getFoodId() == id) return true;
+        }
+        return false;
+    }
+
+    public static void removeFavorite(int id) {
+        for (FavoriteId item: currentFavOfRestaurant) {
+            if(item.getFoodId() == id) currentFavOfRestaurant.remove(item);
+        }
+    }
 }

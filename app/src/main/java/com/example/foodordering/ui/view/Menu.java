@@ -32,6 +32,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.SingleObserver;
@@ -73,6 +75,29 @@ public class Menu extends AppCompatActivity {
         init();
         Log.d("AAA", "Cart nè1");
         countCart();
+        loadFavoriteByRestaurant();
+    }
+
+    private void loadFavoriteByRestaurant() {
+        compositeDisposable.add(
+            myRestaurantAPI.getFavoriteByRestaurant("Bearer "+Utils.currentUser.getToken(),
+                    Utils.API_KEY, Utils.currentUser.getEmail(), Utils.currentRestaurant.getId())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(favoriteIdModel -> {
+                                if (favoriteIdModel.isSuccess()) {
+                                    if(favoriteIdModel.getResult() != null && favoriteIdModel.getResult().size()>0) {
+                                        Utils.currentFavOfRestaurant = favoriteIdModel.getResult();
+                                    } else {
+                                        Utils.currentFavOfRestaurant = new ArrayList<>();
+                                    }
+                                } else {
+                                    Toast.makeText(this, favoriteIdModel.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            },
+                            throwable -> { Log.d("ERROR FAV", throwable.getMessage()); }
+                    )
+        );
     }
 
     @Override

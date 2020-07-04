@@ -19,8 +19,11 @@ import com.example.foodordering.database.CartDataSource;
 import com.example.foodordering.database.CartDatabase;
 import com.example.foodordering.database.CartItem;
 import com.example.foodordering.database.LocalCartDataSource;
+import com.example.foodordering.model.favorite.FavoriteId;
 import com.example.foodordering.model.food.Food;
 import com.example.foodordering.model.eventbus.FoodDetailEvent;
+import com.example.foodordering.retrofit.IMyRestaurantAPI;
+import com.example.foodordering.retrofit.RetrofitClient;
 import com.example.foodordering.ui.view.FoodDetail;
 import com.example.foodordering.utils.Utils;
 import com.squareup.picasso.Picasso;
@@ -42,6 +45,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder>  {
     List<Food> foodList;
     CompositeDisposable compositeDisposable;
     CartDataSource cartDataSource;
+    IMyRestaurantAPI myRestaurantAPI;
 
     public void onStop() {
         this.compositeDisposable.clear();
@@ -53,6 +57,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder>  {
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.compositeDisposable = new CompositeDisposable();
         this.cartDataSource = new LocalCartDataSource(CartDatabase.getInstance(context).cartDAO());
+        this.myRestaurantAPI = RetrofitClient.getInstance(Utils.API_ENDPOINT).create(IMyRestaurantAPI.class);
     }
 
     @NonNull
@@ -68,6 +73,73 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder>  {
         holder.tvFoodName.setText(foodList.get(position).getName());
         holder.tvFoodPrice.setText(foodList.get(position).getPrice() + " VND");
 
+        //Check favorite
+        if(Utils.currentFavOfRestaurant != null && Utils.currentFavOfRestaurant.size() > 0) {
+            if(Utils.checkFavorite(foodList.get(position).getID())) {
+                holder.btnFavorite.setImageResource(R.drawable.ic_favorite_red_24dp);
+                holder.btnFavorite.setTag(true);
+            } else {
+                holder.btnFavorite.setImageResource(R.drawable.ic_favorite_border_red_24dp);
+                holder.btnFavorite.setTag(false);
+            }
+        } else {
+            //Default all item is no favorite
+            holder.btnFavorite.setTag(false);
+        }
+
+        //Event
+        holder.btnFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImageView fav = (ImageView) v;
+                if((Boolean) fav.getTag()) {
+                    compositeDisposable.add(myRestaurantAPI.removeFavorite("Bearer "+Utils.currentUser.getToken(),
+                            Utils.API_KEY,
+                            foodList.get(position).getID(),
+                            Utils.currentRestaurant.getId())
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(
+                                    favoriteModel -> {
+                                        if(favoriteModel.isSuccess()) {
+                                            fav.setImageResource(R.drawable.ic_favorite_border_red_24dp);
+                                            fav.setTag(false);
+                                            if(Utils.currentFavOfRestaurant != null) {
+                                                Utils.removeFavorite(foodList.get(position).getID());
+                                            }
+                                        }
+                                    },
+                                    throwable -> {Log.d("FAV", throwable.getMessage());})
+                    );
+                } else {
+                    compositeDisposable.add(
+                                myRestaurantAPI.insertFavorite("Bearer "+ Utils.currentUser.getToken(),
+                                Utils.API_KEY,
+                                Utils.currentUser.getEmail(),
+                                foodList.get(position).getID(),
+                                Utils.currentRestaurant.getId(),
+                                Utils.currentRestaurant.getName(),
+                                foodList.get(position).getName(),
+                                foodList.get(position).getImage(),
+                                foodList.get(position).getPrice()
+                            )
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(
+                                    favoriteModel -> {
+                                        if(favoriteModel.isSuccess()) {
+                                            fav.setImageResource(R.drawable.ic_favorite_red_24dp);
+                                            fav.setTag(true);
+                                            if(Utils.currentFavOfRestaurant != null) {
+                                                Utils.currentFavOfRestaurant.add(new FavoriteId(foodList.get(position).getID()));
+                                            }
+                                        }
+                                    },
+                                    throwable -> {Log.d("FAV", throwable.getMessage());})
+                    );
+                }
+            }
+        });
         holder.setListener(new IOnFoodCartClick() {
             @Override
             public void onFoodItemCLickListener(View view, int position, boolean isCart) {
@@ -114,6 +186,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder>  {
         @BindView(R.id.tv_food_name) TextView tvFoodName;
         @BindView(R.id.tv_food_price) TextView tvFoodPrice;
         @BindView(R.id.img_cart) ImageView btnCart;
+        @BindView(R.id.img_favorite) ImageView btnFavorite;
         IOnFoodCartClick listener;
 
         public void setListener(IOnFoodCartClick listener) {

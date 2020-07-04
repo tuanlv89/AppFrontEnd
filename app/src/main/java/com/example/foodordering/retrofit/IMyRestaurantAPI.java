@@ -1,6 +1,8 @@
 package com.example.foodordering.retrofit;
 
 import com.example.foodordering.model.addOn.AddOnModel;
+import com.example.foodordering.model.favorite.FavoriteIdModel;
+import com.example.foodordering.model.favorite.FavoriteModel;
 import com.example.foodordering.model.food.FoodModel;
 import com.example.foodordering.model.menu.MenuModel;
 import com.example.foodordering.model.restaurant.RestaurantModel;
@@ -9,6 +11,7 @@ import com.example.foodordering.model.user.UpdateUserModel;
 import com.example.foodordering.model.user.UserModel;
 
 import io.reactivex.Observable;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -52,6 +55,9 @@ public interface IMyRestaurantAPI {
     @GET("food")
     Observable<FoodModel> getFoodByMenuId(@Query("key") String apiKey, @Query("menuId") int menuId, @Header("Authorization") String authToken);
 
+    @GET("foodById")
+    Observable<FoodModel> getFoodById(@Query("key") String apiKey, @Query("id") int id, @Header("Authorization") String authToken);
+
     @GET("food/search/name")
     Observable<FoodModel> getFoodByName(@Query("key") String apiKey, @Query("search") String search, @Header("Authorization") String authToken);
 
@@ -62,4 +68,35 @@ public interface IMyRestaurantAPI {
     //ADD ON
     @GET("addon")
     Observable<AddOnModel> getAddOnOfFood(@Header("Authorization") String authToken, @Query("key") String apiKey, @Query("foodId") int foodId);
+
+    //FAVORITE
+    @GET("favorite")
+    Observable<FavoriteModel> getFavoriteByUser(@Header("Authorization") String authToken, @Query("key") String apiKey, @Query("email") String email);
+
+    @GET("favoriteByRestaurant")
+    Observable<FavoriteIdModel> getFavoriteByRestaurant(@Header("Authorization") String authToken,
+                                                        @Query("key") String apiKey,
+                                                        @Query("email") String email,
+                                                        @Query("restaurantId") int restaurantId);
+
+    @DELETE("favorite")
+    Observable<FavoriteModel> removeFavorite(
+            @Header("Authorization") String authToken,
+            @Query("key") String apiKey,
+            @Query("foodId") int foodId,
+            @Query("restaurantId") int restaurantId);
+
+    @POST("favorite")
+    @FormUrlEncoded
+    Observable<FavoriteModel> insertFavorite(
+            @Header("Authorization") String authToken,
+            @Field("key") String apiKey,
+            @Field("email") String email,
+            @Field("foodId") int foodId,
+            @Field("restaurantId") int restaurantId,
+            @Field("restaurantName") String restaurantName,
+            @Field("foodName") String foodName,
+            @Field("foodImage") String foodImage,
+            @Field("foodPrice") double foodPrice
+    );
 }

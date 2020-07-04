@@ -60,10 +60,11 @@ public class MainActivity extends AppCompatActivity {
                         setFragment(CategoriesFragment.newInstance());
                         return true;
                     case R.id.nav_favorites:
-                        setFragment(FavoritesFragment.newInstance());
+                        if(Utils.currentUser != null) setFragment(FavoritesFragment.newInstance());
+                        else setFragment(SettingsFragment.newInstance());
                         return true;
                     case R.id.nav_settings:
-                        if(Utils.currentUser != null) setFragment(FavoritesFragment.newInstance());
+                        if(Utils.currentUser != null) setFragment(CategoriesFragment.newInstance());
                         else setFragment(SettingsFragment.newInstance());
                         return true;
                     default: return false;
