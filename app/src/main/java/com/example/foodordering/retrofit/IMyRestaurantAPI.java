@@ -83,6 +83,7 @@ public interface IMyRestaurantAPI {
     Observable<FavoriteModel> removeFavorite(
             @Header("Authorization") String authToken,
             @Query("key") String apiKey,
+            @Query("email") String email,
             @Query("foodId") int foodId,
             @Query("restaurantId") int restaurantId);
 

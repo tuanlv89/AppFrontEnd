@@ -146,6 +146,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
                                         String token = userModel.getToken();
                                         User user = new User(Email, userPhone, address, name, token);
                                         Utils.currentUser = user;
+                                        Log.d("AAA", Utils.currentUser.toString());
                                         startActivity(new Intent(SignIn.this, MainActivity.class));
                                     } else Toast.makeText(SignIn.this, userModel.getMessage(), Toast.LENGTH_LONG).show();
                                 },

@@ -143,7 +143,7 @@ public class Menu extends AppCompatActivity {
             public int getSpanSize(int position) {
                 if(categoryAdapter != null) {
                     switch (categoryAdapter.getItemViewType(position)) {
-                        case Utils.ONE_COLUMN_TYPE: return 1;
+                        case Utils.TWO_COLUMN_TYPE: return 1;
                         case Utils.FULL_WIDTH_COLUMN: return 2;
                         default: return -1;
                     }

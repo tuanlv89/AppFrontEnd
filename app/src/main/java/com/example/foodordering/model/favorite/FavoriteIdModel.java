@@ -30,4 +30,13 @@ public class FavoriteIdModel {
     public void setResult(List<FavoriteId> result) {
         this.result = result;
     }
+
+    @Override
+    public String toString() {
+        return "FavoriteIdModel{" +
+                "success=" + success +
+                ", message='" + message + '\'' +
+                ", result=" + result +
+                '}';
+    }
 }

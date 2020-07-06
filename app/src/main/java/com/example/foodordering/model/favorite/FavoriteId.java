@@ -1,17 +1,17 @@
 package com.example.foodordering.model.favorite;
 
 public class FavoriteId {
-    private int foodId;
+    private int FoodId;
 
     public FavoriteId(int foodId) {
-        this.foodId = foodId;
+        FoodId = foodId;
     }
 
     public int getFoodId() {
-        return foodId;
+        return FoodId;
     }
 
     public void setFoodId(int foodId) {
-        this.foodId = foodId;
+        FoodId = foodId;
     }
 }

@@ -89,12 +89,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     @Override
     public int getItemViewType(int position) {
         if(categoryList.size() == 1) {
-            return Utils.ONE_COLUMN_TYPE;
+            return Utils.TWO_COLUMN_TYPE;
         } else {
             if(categoryList.size() % 2 == 0) {
-                return Utils.ONE_COLUMN_TYPE;
+                return Utils.TWO_COLUMN_TYPE;
             } else {
-                return (position > 1 && position == categoryList.size()-1) ? Utils.FULL_WIDTH_COLUMN : Utils.ONE_COLUMN_TYPE;
+                return (position > 1 && position == categoryList.size()-1) ? Utils.FULL_WIDTH_COLUMN : Utils.TWO_COLUMN_TYPE;
             }
         }
     }

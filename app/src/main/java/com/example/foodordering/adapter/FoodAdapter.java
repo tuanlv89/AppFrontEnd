@@ -95,6 +95,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder>  {
                 if((Boolean) fav.getTag()) {
                     compositeDisposable.add(myRestaurantAPI.removeFavorite("Bearer "+Utils.currentUser.getToken(),
                             Utils.API_KEY,
+                            Utils.currentUser.getEmail(),
                             foodList.get(position).getID(),
                             Utils.currentRestaurant.getId())
                             .subscribeOn(Schedulers.io())
@@ -102,11 +103,17 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder>  {
                             .subscribe(
                                     favoriteModel -> {
                                         if(favoriteModel.isSuccess()) {
+                                            Log.d("DELETE", favoriteModel.toString());
                                             fav.setImageResource(R.drawable.ic_favorite_border_red_24dp);
                                             fav.setTag(false);
                                             if(Utils.currentFavOfRestaurant != null) {
+                                                Log.d("DELETE BEFORE REMOVE", Utils.currentFavOfRestaurant.size() + Utils.currentFavOfRestaurant.get(0).getFoodId() + "");
                                                 Utils.removeFavorite(foodList.get(position).getID());
+                                                Log.d("DELETE BEFORE REMOVE", Utils.currentFavOfRestaurant.size() + Utils.currentFavOfRestaurant.get(0).getFoodId() + "");
+
                                             }
+                                        } else {
+                                            Log.d("DELETE", favoriteModel.toString());
                                         }
                                     },
                                     throwable -> {Log.d("FAV", throwable.getMessage());})
@@ -132,6 +139,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder>  {
                                             fav.setTag(true);
                                             if(Utils.currentFavOfRestaurant != null) {
                                                 Utils.currentFavOfRestaurant.add(new FavoriteId(foodList.get(position).getID()));
+                                                Log.d("BBB", Utils.currentFavOfRestaurant.get(Utils.currentFavOfRestaurant.size()-1).getFoodId()+"");
                                             }
                                         }
                                     },
