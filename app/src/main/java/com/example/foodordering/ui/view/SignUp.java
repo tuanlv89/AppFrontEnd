@@ -22,12 +22,13 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class SignUp extends AppCompatActivity implements View.OnClickListener {
-    TextInputLayout edtUsername, edtEmail, edtPhone, edtPassword, edtRetypePass;
+    TextInputLayout edtUsername, edtEmail, edtPhone, edtPassword, edtRetypePass, edtAddress;
     TextView btnLogin, btnSignIn;
     ImageView btnClose;
     private String username = "";
     private String email = "";
     private String phone = "";
+    private String address = "";
     private String pass = "";
     private String rePass = "";
 
@@ -61,14 +62,15 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         if (edtUsername != null) username = edtUsername.getEditText().getText().toString();
         if (edtEmail != null) email = edtEmail.getEditText().getText().toString();
         if (edtPhone != null) phone = edtPhone.getEditText().getText().toString();
+        if (edtAddress != null) address = edtAddress.getEditText().getText().toString();
         if (edtPassword != null) pass = edtPassword.getEditText().getText().toString();
         if (edtRetypePass != null) rePass = edtRetypePass.getEditText().getText().toString();
 
-        if (validateAccount(username, email, phone, pass, rePass)){
+        if (validateAccount(username, email, phone, pass, rePass, address)){
             // register
             ProgressLoading.show(SignUp.this);
             compositeDisposable.add(
-                    myRestaurantAPI.register(phone, username, "", email, pass)
+                    myRestaurantAPI.register(phone, username, address, email, pass)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
@@ -90,10 +92,11 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
-    private boolean validateAccount(String username, String email, String phone, String password, String rePassword) {
+    private boolean validateAccount(String username, String email, String phone, String password, String rePassword, String address) {
         edtUsername.setError(null);
         edtEmail.setError(null);
         edtPhone.setError(null);
+        edtAddress.setError(null);
         edtPassword.setError(null);
         edtRetypePass.setError(null);
 
@@ -111,6 +114,10 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         }
         if(phone.trim().equals("")) {
             edtPhone.setError("Phone number empty");
+            return false;
+        }
+        if (address.trim().equals("")) {
+            edtAddress.setError("Address is empty");
             return false;
         }
         if (password.trim().equals("")) {
@@ -150,6 +157,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         edtEmail = findViewById(R.id.edit_email);
         edtUsername = findViewById(R.id.edit_fullname);
         edtPhone = findViewById(R.id.edit_phone);
+        edtAddress = findViewById(R.id.edit_address);
         edtPassword = findViewById(R.id.edit_password);
         edtRetypePass = findViewById(R.id.edit_retype);
         btnLogin = findViewById(R.id.btn_create);

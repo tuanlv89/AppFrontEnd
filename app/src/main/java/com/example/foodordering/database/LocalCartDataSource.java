@@ -16,24 +16,24 @@ public class LocalCartDataSource implements CartDataSource {
     }
 
     @Override
-    public Flowable<List<CartItem>> getAllCart(String userPhone, int restaurantId) {
-        return cartDAO.getAllCart(userPhone, restaurantId);
+    public Flowable<List<CartItem>> getAllCart(String email, int restaurantId) {
+        return cartDAO.getAllCart(email, restaurantId);
     }
 
     @Override
-    public Single<Integer> countItemInCart(String userPhone, int restaurantId) {
-        Log.d("SSS", cartDAO.countItemInCart(userPhone, restaurantId)+"");
-        return cartDAO.countItemInCart(userPhone, restaurantId);
+    public Single<Integer> countItemInCart(String email, int restaurantId) {
+        Log.d("SSS", cartDAO.countItemInCart(email, restaurantId)+"");
+        return cartDAO.countItemInCart(email, restaurantId);
     }
 
     @Override
-    public Single<Long> sumPrice(String userPhone, int restaurantId) {
-        return cartDAO.sumPrice(userPhone, restaurantId);
+    public Single<Long> sumPrice(String email, int restaurantId) {
+        return cartDAO.sumPrice(email, restaurantId);
     }
 
     @Override
-    public Single<CartItem> getItemInCart(String foodId, String userPhone, int restaurantId) {
-        return cartDAO.getItemInCart(foodId, userPhone, restaurantId);
+    public Single<CartItem> getItemInCart(String foodId, String email, int restaurantId) {
+        return cartDAO.getItemInCart(foodId, email, restaurantId);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class LocalCartDataSource implements CartDataSource {
     }
 
     @Override
-    public Single<Integer> cleanCart(String userPhone, int restaurantId) {
-        return cartDAO.cleanCart(userPhone, restaurantId);
+    public Single<Integer> cleanCart(String email, int restaurantId) {
+        return cartDAO.cleanCart(email, restaurantId);
     }
 }

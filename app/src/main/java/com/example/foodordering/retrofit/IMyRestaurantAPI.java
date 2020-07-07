@@ -5,6 +5,8 @@ import com.example.foodordering.model.favorite.FavoriteIdModel;
 import com.example.foodordering.model.favorite.FavoriteModel;
 import com.example.foodordering.model.food.FoodModel;
 import com.example.foodordering.model.menu.MenuModel;
+import com.example.foodordering.model.order.OrderCreateModel;
+import com.example.foodordering.model.order.OrderModel;
 import com.example.foodordering.model.restaurant.RestaurantModel;
 import com.example.foodordering.model.size.SizeModel;
 import com.example.foodordering.model.user.UpdateUserModel;
@@ -100,4 +102,24 @@ public interface IMyRestaurantAPI {
             @Field("foodImage") String foodImage,
             @Field("foodPrice") double foodPrice
     );
+
+    //Order
+    @POST("createOrder")
+    @FormUrlEncoded
+    Observable<OrderCreateModel> createOrder(
+            @Header("Authorization") String authToken,
+            @Field("orderEmail") String orderEmail,
+            @Field("orderPhone") String orderPhone,
+            @Field("ordername") String ordername,
+            @Field("orderAddress") String orderAddress,
+            @Field("orderDate") String orderDate,
+            @Field("restaurantId") int restaurantId,
+            @Field("transactionId") String transactionId,
+            @Field("COD") boolean COD,
+            @Field("totalPrice") double totalPrice,
+            @Field("numOfItem") int numOfItem
+            );
+
+    @GET("order")
+    Observable<OrderModel> getAllOrder(@Header("Authorization") String authToken, @Query("orderEmail") String orderEmail);
 }

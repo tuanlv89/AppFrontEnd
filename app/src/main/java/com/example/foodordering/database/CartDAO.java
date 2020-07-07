@@ -15,17 +15,17 @@ import io.reactivex.Single;
 
 @Dao
 public interface CartDAO {
-    @Query("SELECT * FROM Cart WHERE userPhone=:userPhone AND restaurantId=:restaurantId")
-    Flowable<List<CartItem>> getAllCart(String userPhone, int restaurantId);
+    @Query("SELECT * FROM Cart WHERE email=:email AND restaurantId=:restaurantId")
+    Flowable<List<CartItem>> getAllCart(String email, int restaurantId);
 
-    @Query("SELECT COUNT(*) FROM Cart WHERE userPhone=:userPhone AND restaurantId=:restaurantId")
-    Single<Integer> countItemInCart(String userPhone, int restaurantId);
+    @Query("SELECT COUNT(*) FROM Cart WHERE email=:email AND restaurantId=:restaurantId")
+    Single<Integer> countItemInCart(String email, int restaurantId);
 
-    @Query("SELECT SUM(foodPrice*foodQuantity)+(foodExtraPrice*foodQuantity) FROM Cart WHERE userPhone=:userPhone AND restaurantId=:restaurantId")
-    Single<Long> sumPrice(String userPhone, int restaurantId);
+    @Query("SELECT SUM(foodPrice*foodQuantity)+(foodExtraPrice*foodQuantity) FROM Cart WHERE email=:email AND restaurantId=:restaurantId")
+    Single<Long> sumPrice(String email, int restaurantId);
 
-    @Query("SELECT * FROM Cart WHERE foodId=:foodId AND userPhone=:userPhone AND restaurantId=:restaurantId")
-    Single<CartItem> getItemInCart(String foodId, String userPhone, int restaurantId);
+    @Query("SELECT * FROM Cart WHERE foodId=:foodId AND email=:email AND restaurantId=:restaurantId")
+    Single<CartItem> getItemInCart(String foodId, String email, int restaurantId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)  //if conflict foodId, it will update info
     Completable insertOrReplaceAll(CartItem... cartItems);
@@ -36,7 +36,7 @@ public interface CartDAO {
     @Delete
     Single<Integer> deleteCart(CartItem cartItem);
 
-    @Query("DELETE FROM Cart WHERE userPhone=:userPhone AND restaurantId=:restaurantId")
-    Single<Integer> cleanCart(String userPhone, int restaurantId);
+    @Query("DELETE FROM Cart WHERE email=:email AND restaurantId=:restaurantId")
+    Single<Integer> cleanCart(String email, int restaurantId);
 
 }

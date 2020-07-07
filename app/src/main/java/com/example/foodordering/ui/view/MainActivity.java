@@ -17,7 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.foodordering.R;
-import com.example.foodordering.ui.fragment.CategoriesFragment;
+import com.example.foodordering.ui.fragment.AccountFragment;
+import com.example.foodordering.ui.fragment.OrderHistoryFragment;
 import com.example.foodordering.ui.fragment.FavoritesFragment;
 import com.example.foodordering.ui.fragment.HomeFragment;
 import com.example.foodordering.ui.fragment.SettingsFragment;
@@ -56,15 +57,16 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_home:
                         setFragment(HomeFragment.newInstance());
                         return true;
-                    case R.id.nav_categories:
-                        setFragment(CategoriesFragment.newInstance());
+                    case R.id.nav_history:
+                        if(Utils.currentUser != null) setFragment(OrderHistoryFragment.newInstance());
+                        else setFragment(SettingsFragment.newInstance());
                         return true;
                     case R.id.nav_favorites:
                         if(Utils.currentUser != null) setFragment(FavoritesFragment.newInstance());
                         else setFragment(SettingsFragment.newInstance());
                         return true;
-                    case R.id.nav_settings:
-                        if(Utils.currentUser != null) setFragment(CategoriesFragment.newInstance());
+                    case R.id.nav_account:
+                        if(Utils.currentUser != null) setFragment(AccountFragment.newInstance());
                         else setFragment(SettingsFragment.newInstance());
                         return true;
                     default: return false;

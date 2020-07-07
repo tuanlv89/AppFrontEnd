@@ -107,10 +107,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder>  {
                                             fav.setImageResource(R.drawable.ic_favorite_border_red_24dp);
                                             fav.setTag(false);
                                             if(Utils.currentFavOfRestaurant != null) {
-                                                Log.d("DELETE BEFORE REMOVE", Utils.currentFavOfRestaurant.size() + Utils.currentFavOfRestaurant.get(0).getFoodId() + "");
                                                 Utils.removeFavorite(foodList.get(position).getID());
-                                                Log.d("DELETE BEFORE REMOVE", Utils.currentFavOfRestaurant.size() + Utils.currentFavOfRestaurant.get(0).getFoodId() + "");
-
                                             }
                                         } else {
                                             Log.d("DELETE", favoriteModel.toString());
@@ -159,6 +156,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder>  {
                     cartItem.setFoodPrice(foodList.get(position).getPrice());
                     cartItem.setFoodImage(foodList.get(position).getImage());
                     cartItem.setFoodQuantity(1);
+                    cartItem.setEmail(Utils.currentUser.getEmail());
                     cartItem.setUserPhone(Utils.currentUser.getUserPhone());
                     cartItem.setRestaurantId(Utils.currentRestaurant.getId());
                     cartItem.setFoodAddon("NORMAL");

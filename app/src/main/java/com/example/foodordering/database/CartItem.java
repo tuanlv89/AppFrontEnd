@@ -39,6 +39,9 @@ public class CartItem {
     @ColumnInfo(name = "foodExtraPrice")
     private Double foodExtraPrice;
 
+    @ColumnInfo(name = "email")
+    private String email;
+
     public CartItem() {
     }
 
@@ -120,5 +123,30 @@ public class CartItem {
 
     public void setFoodSize(String foodSize) {
         this.foodSize = foodSize;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "CartItem{" +
+                "foodId=" + foodId +
+                ", foodName='" + foodName + '\'' +
+                ", foodImage='" + foodImage + '\'' +
+                ", foodPrice=" + foodPrice +
+                ", foodQuantity=" + foodQuantity +
+                ", userPhone='" + userPhone + '\'' +
+                ", foodSize='" + foodSize + '\'' +
+                ", restaurantId=" + restaurantId +
+                ", foodAddon='" + foodAddon + '\'' +
+                ", foodExtraPrice=" + foodExtraPrice +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

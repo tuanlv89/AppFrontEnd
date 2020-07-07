@@ -6,8 +6,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -15,12 +18,14 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.foodordering.R;
 import com.example.foodordering.adapter.AddOnAdapter;
 import com.example.foodordering.common.dialog.ProgressLoading;
 import com.example.foodordering.database.CartDataSource;
 import com.example.foodordering.database.CartDatabase;
+import com.example.foodordering.database.CartItem;
 import com.example.foodordering.database.LocalCartDataSource;
 import com.example.foodordering.model.eventbus.AddOnEventChange;
 import com.example.foodordering.model.food.Food;
@@ -80,6 +85,43 @@ public class FoodDetail extends AppCompatActivity {
         setContentView(R.layout.activity_food_detail);
         ButterKnife.bind(this);
         init();
+
+        btnViewCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(FoodDetail.this, CartList.class));
+            }
+        });
+
+        btnAddCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CartItem cartItem = new CartItem();
+                cartItem.setFoodId(foodSelected.getID());
+                cartItem.setFoodName(foodSelected.getName());
+                cartItem.setFoodPrice(foodSelected.getPrice());
+                cartItem.setFoodImage(foodSelected.getImage());
+                cartItem.setFoodQuantity(1);
+                cartItem.setEmail(Utils.currentUser.getEmail());
+                cartItem.setUserPhone(Utils.currentUser.getUserPhone());
+                cartItem.setRestaurantId(Utils.currentRestaurant.getId());
+                cartItem.setFoodAddon("NORMAL");
+                cartItem.setFoodSize("NORMAL");
+                cartItem.setFoodExtraPrice(0.0);
+
+                compositeDisposable.add(
+                        cartDataSource.insertOrReplaceAll(cartItem)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(() -> {
+                                            Toast.makeText(FoodDetail.this, "ADDED TO CART", Toast.LENGTH_LONG).show();
+                                        },
+                                        throwable -> {
+                                            Log.d("ERROR CART", throwable.getMessage());
+                                        })
+                );
+            }
+        });
     }
 
     private void init() {
