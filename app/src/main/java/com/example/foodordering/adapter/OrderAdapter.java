@@ -1,6 +1,7 @@
 package com.example.foodordering.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         this.context = context;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.orderList = orderList;
+        Log.d("AAA", orderList.get(0).toString());
     }
 
     @NonNull
@@ -42,13 +44,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.tvAddress.setText(orderList.get(position).getOrderAddress());
         holder.tvOrderId.setText("Order #"+orderList.get(position).getOrderId());
         holder.tvPhone.setText(orderList.get(position).getOrderPhone());
-        holder.tvDate.setText("Order on: "+ simpleDateFormat.format(orderList.get(position).getOrderDate()));
+        holder.tvDate.setText("Order on: "+ orderList.get(position).getOrderDate());
         holder.tvPrice.setText(orderList.get(position).getTotalPrice()+ " VND");
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return orderList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

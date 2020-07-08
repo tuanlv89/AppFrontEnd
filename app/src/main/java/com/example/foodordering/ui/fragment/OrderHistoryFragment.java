@@ -1,6 +1,7 @@
 package com.example.foodordering.ui.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,15 +70,16 @@ public class OrderHistoryFragment extends Fragment {
                         orderModel -> {
                             ProgressLoading.dismiss();
                             if(orderModel.isSuccess()) {
-                                if(orderModel.getResult().size()>0) {
+                                //if(orderModel.getResult().size()>0) {
+                                    Log.d("OK", orderModel.getResult().toString());
                                     OrderAdapter adapter = new OrderAdapter(getContext(), orderModel.getResult());
                                     recyclerOrder.setAdapter(adapter);
-                                }
+                                //}
                             } else {
-
+                                Log.d("ORDER", orderModel.getMessage());
                             }
                         },
-                        throwable -> {ProgressLoading.dismiss();}
+                        throwable -> {ProgressLoading.dismiss(); Log.d("ERROR ORDER", throwable.getMessage());}
                 )
         );
     }

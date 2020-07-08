@@ -58,8 +58,6 @@ public class FoodDetail extends AppCompatActivity {
     TextView tvMoney;
     @BindView(R.id.radio_size)
     RadioGroup radioSize;
-    @BindView(R.id.recycler_addon)
-    RecyclerView recyclerAddon;
     @BindView(R.id.tv_description) TextView tvDescription;
     @BindView(R.id.img_food_detail)
     ImageView imgFoodDetail;
@@ -260,9 +258,6 @@ public class FoodDetail extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void displayAddOn(AddOnLoadEvent event) {
         if(event.isSuccess()) {
-            recyclerAddon.setHasFixedSize(true);
-            recyclerAddon.setLayoutManager(new LinearLayoutManager(this));
-            recyclerAddon.setAdapter(new AddOnAdapter(this, event.getAddOnList()));
 
         }
     }

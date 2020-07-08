@@ -25,7 +25,7 @@ public interface IMyRestaurantAPI {
 
     // USER
     @GET("user")
-    Observable<UserModel> getUser(@Query("key") String apiKey, @Query("userPhone") String userPhone);
+    Observable<UserModel> getUser(@Query("email") String email);
 
     @POST("user")
     Observable<UpdateUserModel> updateUserInfo(@Field("key") String apiKey,

@@ -15,6 +15,8 @@ import java.util.Set;
 public class Utils {
     public static final int TWO_COLUMN_TYPE = 1;
     public static final int FULL_WIDTH_COLUMN = 2;
+    public static String TOKEN = "TOKEN";
+    public static String EMAIL = "EMAIL";
     public static boolean isOnline;
     public static final String API_ENDPOINT = "http://10.0.2.2:3000/";
     public static final String API_KEY = "14121998";

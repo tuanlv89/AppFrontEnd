@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +34,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
     IMyRestaurantAPI myRestaurantAPI;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
+    SharedPreferences sharedPreferences;
     @Override
     protected void onDestroy() {
         compositeDisposable.clear();
@@ -49,6 +51,8 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
         btnSignIn.setOnClickListener(this);
         btnFacebook.setOnClickListener(this);
         close.setOnClickListener(this);
+
+        sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
     }
 
     @Override public void finish() {
@@ -147,7 +151,16 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
                                         User user = new User(Email, userPhone, address, name, token);
                                         Utils.currentUser = user;
                                         Log.d("AAA", Utils.currentUser.toString());
+
+                                        //---------------------------
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString(Utils.EMAIL, Email);
+                                        editor.putString(Utils.TOKEN, token);
+
+                                        editor.apply();
+                                        //---------------------------
                                         startActivity(new Intent(SignIn.this, MainActivity.class));
+                                        finish();
                                     } else Toast.makeText(SignIn.this, userModel.getMessage(), Toast.LENGTH_LONG).show();
                                 },
                                 throwable -> {

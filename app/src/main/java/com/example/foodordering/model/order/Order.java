@@ -109,4 +109,14 @@ public class Order {
     public void setTotalPrice(double totalPrice) {
         TotalPrice = totalPrice;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "OrderId=" + OrderId +
+                ", OrderEmail='" + OrderEmail + '\'' +
+                ", OrderPhone='" + OrderPhone + '\'' +
+                ", TotalPrice=" + TotalPrice +
+                '}';
+    }
 }
