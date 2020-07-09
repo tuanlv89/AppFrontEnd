@@ -143,9 +143,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <RadioButton
+                        android:id="@+id/rdi_cod"
                         android:textSize="18sp"
                         android:checked="true"
                         android:text="Cash On Deliver"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                    <RadioButton
+                        android:id="@+id/rdi_online_payment"
+                        android:textSize="18sp"
+                        android:text="Online Payment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
                 </RadioGroup>

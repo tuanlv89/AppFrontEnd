@@ -67,4 +67,6 @@ dependencies {
 
     implementation 'com.github.florent37:expansionpanel:1.2.4'
 
+    implementation 'com.braintreepayments.api:drop-in:4.1.1'
+
 }

@@ -46,6 +46,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.tvPhone.setText(orderList.get(position).getOrderPhone());
         holder.tvDate.setText("Order on: "+ orderList.get(position).getOrderDate());
         holder.tvPrice.setText(orderList.get(position).getTotalPrice()+ " VND");
+
+        if(orderList.get(position).isCOD() || orderList.get(position).getTransactionId().equals("NONE")) {
+            holder.tvPayment.setText("Payment: Cash On Deliver");
+        } else {
+            holder.tvPayment.setText("TransID: " + orderList.get(position).getTransactionId());
+        }
     }
 
     @Override
@@ -60,6 +66,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         @BindView(R.id.tv_address) TextView tvAddress;
         @BindView(R.id.tv_date) TextView tvDate;
         @BindView(R.id.tv_price) TextView tvPrice;
+        @BindView(R.id.tv_payment) TextView tvPayment;
 
         Unbinder unbinder;
         public ViewHolder(@NonNull View itemView) {

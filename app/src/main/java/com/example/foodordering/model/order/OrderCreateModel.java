@@ -30,4 +30,13 @@ public class OrderCreateModel {
     public void setResult(List<OrderCreate> result) {
         this.result = result;
     }
+
+    @Override
+    public String toString() {
+        return "OrderCreateModel{" +
+                "success=" + success +
+                ", message='" + message + '\'' +
+                ", result=" + result +
+                '}';
+    }
 }
